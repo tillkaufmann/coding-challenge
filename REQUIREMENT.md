@@ -9,6 +9,7 @@ The purpose of this Node.js service is to provide a unified interface for intera
 ### General
 
 - The service must be implemented using Node.js 22.13 and TypeScript.
+- Use pnpm as the package manager for external packages.
 - The service must use the Express framework to handle REST requests.
 - Zod must be used for validating incoming requests.
 - Additional packages should not be needed, you can add more but have to give a reason why.
