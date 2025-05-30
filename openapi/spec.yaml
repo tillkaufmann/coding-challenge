@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  title: VAT Checker API
+  version: 1.0.0
+  description: API for validating VAT numbers for various countries using external EU and Swiss services.
+servers:
+  - url: http://localhost:3000
+paths:
+  /validate/vat:
+    post:
+      summary: Validate a VAT number for a given country code
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - countryCode
+                - vat
+              properties:
+                countryCode:
+                  type: string
+                  description: ISO 2 country code (e.g. DE, AT, CH)
+                  example: DE
+                vat:
+                  type: string
+                  description: VAT number to validate
+                  example: 123456789
+      responses:
+        '200':
+          description: VAT number is valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  validated:
+                    type: boolean
+                    example: true
+                  details:
+                    type: string
+                    example: VAT number is valid for the given country code.
+        '400':
+          description: Invalid request (e.g. invalid VAT number)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 400
+                  message:
+                    type: string
+                    example: The VAT number is invalid.
+        '501':
+          description: Country code not supported
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 501
+                  message:
+                    type: string
+                    example: The country code is not supported.
+        '502':
+          description: Error calling external service
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 502
+                  message:
+                    type: string
+                    example: The external service could not be reached.
+components: {}

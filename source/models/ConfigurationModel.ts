@@ -11,10 +11,17 @@ type ExpressServerOptions = Pick<
   | "requestTimeout"
 >;
 
+type ValidationConfig = {
+  regexes: Array<{
+    countryCode: string;
+    regex: string;
+  }>;
+};
+
 export interface Configuration {
-  // TO_CHANGE: add your needed configuration parameters
   readonly port: number;
   readonly expressServerOptions: ExpressServerOptions;
+  readonly validation: ValidationConfig;
 }
 
 export const readAppConfiguration = (file: string): Configuration => {

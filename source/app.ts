@@ -5,20 +5,22 @@ import {
 } from "./models/ConfigurationModel.js";
 import createApp from "./server.js";
 
-const configurationFile = "";
+const configurationFile = "app.conf.json";
 
 const configuration: Configuration = readAppConfiguration(configurationFile);
 
 const server: Server = createApp(configuration).app.listen(
   configuration.port,
   () => {
-    console.log({ description: "START" });
+      console.log(`Listening on http://localhost:${configuration.port}`);
   }
 );
 
-server.keepAliveTimeout = configuration.expressServerOptions.keepAliveTimeout;
-server.maxHeadersCount = configuration.expressServerOptions.maxHeadersCount;
-server.maxConnections = configuration.expressServerOptions.maxConnections;
-server.headersTimeout = configuration.expressServerOptions.headersTimeout;
-server.requestTimeout = configuration.expressServerOptions.requestTimeout;
-server.timeout = configuration.expressServerOptions.timeout;
+const opts = configuration.expressServerOptions ?? {};
+
+server.keepAliveTimeout = opts.keepAliveTimeout ?? 5000; // ms
+server.maxHeadersCount = opts.maxHeadersCount ?? 100;
+server.maxConnections = opts.maxConnections ?? 100;
+server.headersTimeout = opts.headersTimeout ?? 5000; // ms
+server.requestTimeout = opts.requestTimeout ?? 5000; // ms
+server.timeout = opts.timeout ?? 2000; //
