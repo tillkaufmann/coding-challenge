@@ -33,7 +33,7 @@ const ValidateRouter = (configuration: Configuration, vatService?: VatValidation
 
         if (!validationResult.valid) {
             console.debug(`validation failed:  ${validationResult.message}`);
-            return res.status(400).json({
+            return res.status(validationResult.returnCode).json({
                 validated: false,
                 details: validationResult.message || "Validation failed",
             });
